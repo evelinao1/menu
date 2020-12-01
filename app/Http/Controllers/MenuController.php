@@ -37,10 +37,16 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge(['price' => str_replace(",",".",$request->price)]);
+        // $request->all()['price'] = str_replace(",",".",$request->price);
+        $request->weight = str_replace(",",".",$request->weight);
+        $request->meat = str_replace(",",".",$request->meat);
+        print_r($request->price);
+        // dd($request->all()['price']);
         $validator = Validator::make($request->all(),
         [
             'title'=>['required'],
-            'price'=>['required', 'numeric'],
+            'price'=>['required', 'numeric','min:0','max:500'],
             'weight'=>['required', 'numeric'],
             'meat'=>['required', 'numeric', 'lt:weight'],
             'description'=>['required']
@@ -70,9 +76,9 @@ class MenuController extends Controller
 
         $menu = new Menu();
         $menu->title = $request->title;
-        $menu->price = $request->price;
-        $menu->weight = $request->weight;
-        $menu->meat = $request->meat;
+        $menu->price = str_replace(",",".",$request->price);
+        $menu->weight = str_replace(",",".",$request->weight);
+        $menu->meat = str_replace(",",".",$request->meat);
         $menu->description = $request->description;
         $menu->save();
         return redirect()->route('menu.index');

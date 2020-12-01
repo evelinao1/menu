@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestaurantController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PdfController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,8 +39,8 @@ Route::group(['prefix'=>'menu'],function(){
     Route::middleware(['auth:sanctum', 'verified'])->
     post('/destroy/{menu}',[MenuController::class,'destroy'])->name('menu.destroy');
     
-    // Route::middleware(['auth:sanctum', 'verified'])->
-    // get('/print',[PdfController::class,'printTasks'])->name('task.print');
+    Route::middleware(['auth:sanctum', 'verified'])->
+    get('/print',[PdfController::class,'printMenu'])->name('menu.print');
 });
 Route::group(['prefix'=>'restaurants'],function(){
     
